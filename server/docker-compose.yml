@@ -2,12 +2,58 @@ version: '2'
 
 services:
 
+  mysql:
+    image: mysql:5.6
+    container_name: mysql
+    restart: always
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
+    volumes:
+      - ../data_storage/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=root
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ../data_storage/redis:/data
+    ports:
+      - 6379:6379
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    restart: always
+    volumes:
+      - ../data_storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  kafka:
+    image: gaven/kafka
+    container_name: kafka
+    restart: always
+    ports:
+      - 2181:2181
+      - 9092:9092
+      - 9000:9000
+      - 18081:8081
+    environment:
+      - ADVERTISED_HOST=localhost
+      - ADVERTISED_PORT=9092
+
   elasticsearch:
     image: elasticsearch:alpine
     container_name: elasticsearch
     restart: always
     volumes:
-      - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
+      - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     # environment:
@@ -25,25 +71,12 @@ services:
     depends_on:
       - elasticsearch
 
-  # logstash:
-  #   image: logstash
-  #   container_name: logstash
-  #   restart: always
-  #   command: logstash -f /config/logstash.conf
-  #   # command: logstash -e 'input { udp { port => 4560 codec => json } } output { elasticsearch { hosts => "elasticsearch:9200" } }'
-  #   # ports:
-  #   #   - 4560:4560/udp
-  #   volumes:
-  #     - ./external_config/logstash:/config
-  #   depends_on:
-  #     - elasticsearch
-
   nexus:
     image: sonatype/nexus3
     container_name: nexus
     restart: always
     volumes:
-      - ./data_storage/nexus:/nexus-data
+      - ../data_storage/nexus:/nexus-data
     ports:
       - 8081:8081
 
@@ -53,8 +86,8 @@ services:
     restart: always
     volumes:
       # - ./external_config/registry/certs:/certs
-      - ./external_config/registry/auth:/auth
-      - ./data_storage/registry:/var/lib/registry
+      - ../external_config/registry/auth:/auth
+      - ../data_storage/registry:/var/lib/registry
     ports:
       - 80:80
     environment:
