@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+
+  logstash:
+    image: logstash
+    container_name: logstash
+    restart: always
+    command: logstash -f /config/logstash.conf
+    # command: logstash -e 'input { udp { port => 4560 codec => json } } output { elasticsearch { hosts => "elasticsearch:9200" } }'
+    # ports:
+    #   - 4560:4560/udp
+    volumes:
+      - ../external_config/logstash:/config
+    depends_on:
+      - elasticsearch
+
+  haproxy:
+    image: haproxy:alpine
+    container_name: haproxy
+    restart: always
+    volumes:
+      - ../external_config/haproxy:/usr/local/etc/haproxy:ro
+    ports:
+      - 9999:9999
