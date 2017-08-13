@@ -76,6 +76,7 @@ services:
     container_name: nexus
     restart: always
     volumes:
+      # chown -R 200 ../data_storage/nexus
       - ../data_storage/nexus:/nexus-data
     ports:
       - 8081:8081
