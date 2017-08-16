@@ -30,7 +30,7 @@ services:
     container_name: rabbitmq
     restart: always
     volumes:
-      - ../data_storage/rabbitmq:/var/lib/rabbitmq
+      # - ../data_storage/rabbitmq:/var/lib/rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
