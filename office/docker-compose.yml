@@ -29,8 +29,8 @@ services:
     image: rabbitmq:management-alpine
     container_name: rabbitmq
     restart: always
-    # volumes:
-    #   - ../data_storage/rabbitmq:/var/lib/rabbitmq
+    volumes:
+      - ../data_storage/rabbitmq:/var/lib/rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -59,6 +59,16 @@ services:
     # environment:
     #   - http.host=0.0.0.0
     #   - transport.host=127.0.0.1
+
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    restart: always
+    volumes:
+      # chown -R 200 ../data_storage/nexus
+      - ../data_storage/nexus:/nexus-data
+    ports:
+      - 8081:8081
 
   kibana:
     image: kibana
