@@ -45,7 +45,8 @@ services:
       - 9000:9000
       - 18081:8081
     environment:
-      - ADVERTISED_HOST=10.118.118.37
+      # - ADVERTISED_HOST=10.118.118.37
+      - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
 
   elasticsearch:
@@ -70,14 +71,4 @@ services:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
     depends_on:
       - elasticsearch
-
-  confluent-elasticsearch-sink:
-    image: gaven/confluent-elasticsearch-sink
-    container_name: confluent-elasticsearch-sink
-    restart: always
-    volumes:
-      - ../external_config/confluent-elasticsearch-sink/config:/config
-    depends_on:
-      - elasticsearch
-      - kafka
 
