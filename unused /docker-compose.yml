@@ -2,6 +2,39 @@ version: '2'
 
 services:
 
+  elasticsearch:
+    image: elasticsearch:alpine
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    # environment:
+    #   - http.host=0.0.0.0
+    #   - transport.host=127.0.0.1
+
+  kibana:
+    image: kibana
+    container_name: kibana
+    restart: always
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+      
+  filebeat:
+    image: gaven/filebeat
+    container_name: filebeat
+    restart: always
+    volumes:
+      - ../external_config/filebeat/filebeat.yml:/filebeat.yml
+      - /opt/log/stash:/input
+    depends_on:
+      - elasticsearch
+      
   logstash:
     image: logstash
     container_name: logstash
@@ -23,3 +56,33 @@ services:
       - ../external_config/haproxy:/usr/local/etc/haproxy:ro
     ports:
       - 9999:9999
+
+  nexus:
+    image: sonatype/nexus3
+    container_name: nexus
+    restart: always
+    volumes:
+      # chown -R 200 ../data_storage/nexus
+      - ../data_storage/nexus:/nexus-data
+    ports:
+      - 8081:8081
+
+  registry:
+    image: registry
+    container_name: registry
+    restart: always
+    volumes:
+      # - ./external_config/registry/certs:/certs
+      - ../external_config/registry/auth:/auth
+      - ../data_storage/registry:/var/lib/registry
+    ports:
+      - 80:80
+    environment:
+      - REGISTRY_HTTP_ADDR=0.0.0.0:80
+      # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt
+      # - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
+      - REGISTRY_AUTH=htpasswd
+      - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+      - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+      # docker login registry.gavin.com username/password = gavin/gavin
+
