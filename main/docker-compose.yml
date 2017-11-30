@@ -40,7 +40,7 @@ services:
     container_name: kafka
     restart: always
     ports:
-      # - 2181:2181
+      - 2181:2181
       - 9092:9092
       - 9000:9000
       - 18081:8081
@@ -48,11 +48,4 @@ services:
       # - ADVERTISED_HOST=10.118.118.37
       - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
-
-  zookeeper:
-    image: zookeeper:3.5.3-beta
-    container_name: zookeeper
-    restart: always
-    ports:
-      - 2181:2181
 
