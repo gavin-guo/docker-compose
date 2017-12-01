@@ -3,11 +3,12 @@ version: '2'
 services:
 
   mysql:
-    image: mysql:5.6
+    image: mysql:5.7
     container_name: mysql
     restart: always
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
+    # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
     volumes:
+      - ../external_config/mysql:/etc/mysql/conf.d
       - ../data_storage/mysql:/var/lib/mysql
     ports:
       - 3306:3306
