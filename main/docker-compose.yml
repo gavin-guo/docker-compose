@@ -44,7 +44,7 @@ services:
       - 2181:2181
       - 9092:9092
       - 9000:9000
-      - 18081:8081
+      - 8081:8081
     environment:
       # - ADVERTISED_HOST=10.118.118.37
       - ADVERTISED_HOST=localhost
