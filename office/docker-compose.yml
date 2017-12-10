@@ -37,14 +37,14 @@ services:
       - 15672:15672
 
   kafka: # include zookeeper inside, no need to link external zookeeper.
-    image: gaven/kafka:1.0.0
+    image: gaven/kafka:1.0.0-alpine
     container_name: kafka
     restart: always
     ports:
       - 2181:2181
       - 9092:9092
       - 9000:9000
-      - 18081:8081
+      - 9001:9001
     environment:
       # - ADVERTISED_HOST=10.118.118.37
       - ADVERTISED_HOST=localhost
