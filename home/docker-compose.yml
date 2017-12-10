@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -58,9 +58,6 @@ services:
       - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-    # environment:
-    #   - http.host=0.0.0.0
-    #   - transport.host=127.0.0.1
 
   kibana:
     image: kibana
