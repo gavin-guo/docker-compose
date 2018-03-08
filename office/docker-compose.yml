@@ -50,3 +50,14 @@ services:
       - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
 
+  oracle:
+    image: sath89/oracle-12c
+    container_name: oracle
+    restart: always
+    volumes:
+      - ../data_storage/oracle:/u01/app/oracle
+    ports:
+      - 1521:1521
+    environment:
+      - DBCA_TOTAL_MEMORY=1024
+
