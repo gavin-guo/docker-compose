@@ -50,14 +50,31 @@ services:
       - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
 
-  oracle:
-    image: sath89/oracle-12c
-    container_name: oracle
+  elasticsearch:
+    image: elasticsearch:alpine
+    container_name: elasticsearch
     restart: always
     volumes:
-      - ../data_storage/oracle:/u01/app/oracle
+      - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
     ports:
-      - 1521:1521
-    environment:
-      - DBCA_TOTAL_MEMORY=1024
+      - 9200:9200
 
+  mongo:
+    image: mongo:3.7-jessie
+    container_name: mongo
+    restart: always
+    volumes:
+      - ../data_storage/mongo:/data/db
+    ports:
+      - 27017:27017
+
+  # oracle:
+  #   image: sath89/oracle-12c
+  #   container_name: oracle
+  #   restart: always
+  #   volumes:
+  #     - ../data_storage/oracle:/u01/app/oracle
+  #   ports:
+  #     - 1521:1521
+  #   environment:
+  #     - DBCA_TOTAL_MEMORY=1024
