@@ -26,6 +26,18 @@ services:
     ports:
       - 6379:6379
 
+  redis-sentinel-cluster:
+    image: yesuagg/redis-sentinel-cluster:0.1.0
+    container_name: redis-sentinel-cluster
+    restart: always
+    ports:
+      - 16379:6379
+      - 6380:6380
+      - 6381:6381
+      - 26379:26379
+      - 26380:26380
+      - 26381:26381
+
   rabbitmq:
     image: rabbitmq:management-alpine
     container_name: rabbitmq
