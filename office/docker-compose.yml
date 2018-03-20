@@ -27,7 +27,7 @@ services:
       - 6379:6379
 
   redis-sentinel-cluster:
-    image: yesuagg/redis-sentinel-cluster:0.1.0
+    image: gaven/redis-sentinel-cluster
     container_name: redis-sentinel-cluster
     restart: always
     ports:
