@@ -17,21 +17,21 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=root
 
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: always
-    volumes:
-      - ../data_storage/redis:/data
-    ports:
-      - 6379:6379
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis
+  #   restart: always
+  #   volumes:
+  #     - ../data_storage/redis:/data
+  #   ports:
+  #     - 6379:6379
 
   redis-sentinel-cluster:
-    image: gaven/redis-sentinel-cluster
+    image: yesuagg/redis-sentinel-cluster:0.1.0
     container_name: redis-sentinel-cluster
     restart: always
     ports:
-      - 16379:6379
+      - 6379:6379
       - 6380:6380
       - 6381:6381
       - 26379:26379
@@ -58,18 +58,50 @@ services:
       - 9000:9000
       - 9001:9001
     environment:
-      # - ADVERTISED_HOST=10.118.118.37
       - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
+
+  # elasticsearch:
+  #   image: elasticsearch:alpine
+  #   container_name: elasticsearch
+  #   restart: always
+  #   volumes:
+  #     - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
 
   elasticsearch:
     image: elasticsearch:alpine
     container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     restart: always
     volumes:
-      - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
+      - ../data_storage/elasticsearch1:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+
+  elasticsearch2:
+    image: elasticsearch:alpine
+    container_name: elasticsearch2
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    restart: always
+    volumes:
+      - ../data_storage/elasticsearch2:/usr/share/elasticsearch/data
 
   mongo:
     image: mongo:3.7-jessie
