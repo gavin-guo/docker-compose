@@ -67,8 +67,18 @@ services:
     restart: always
     volumes:
       - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
+      - ../external_config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - 9200:9200
+      - 9300:9300
+
+  elasticsearch_1:
+    image: elasticsearch:alpine
+    container_name: elasticsearch_1
+    restart: always
+    volumes:
+      - ../data_storage/elasticsearch_1:/usr/share/elasticsearch/data
+      - ../external_config/elasticsearch_1/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
 
   mongo:
     image: mongo:3.7-jessie

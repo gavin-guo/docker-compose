@@ -1,0 +1,6 @@
+cluster.name: "es-cluster"
+node.name: master
+node.master: true
+node.data: true
+network.host: 0.0.0.0
+discovery.zen.minimum_master_nodes: 1
