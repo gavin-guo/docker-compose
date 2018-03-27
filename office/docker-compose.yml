@@ -26,17 +26,22 @@ services:
   #   ports:
   #     - 6379:6379
 
-  redis:
-    image: yesuagg/redis-sentinel-cluster:0.1.0
-    container_name: redis
+  # redis-sentinel:
+  #   image: yesuagg/redis-sentinel-cluster:0.1.0
+  #   container_name: redis-sentinel
+  #   restart: always
+  #   ports:
+  #     - 6379-6381:6379-6381
+  #     - 26379-26381:26379-26381
+
+  redis-cluster:
+    image: gaven/redis-cluster
+    container_name: redis-cluster
     restart: always
     ports:
-      - 6379:6379
-      - 6380:6380
-      - 6381:6381
-      - 26379:26379
-      - 26380:26380
-      - 26381:26381
+      - 7000-7005:7000-7005
+    environment:
+      - CLUSTER_ONLY=true
 
   rabbitmq:
     image: rabbitmq:management-alpine
@@ -48,7 +53,7 @@ services:
       - 5672:5672
       - 15672:15672
 
-  kafka: # include zookeeper inside, no need to link external zookeeper.
+  kafka:
     image: gaven/kafka:1.0.0-alpine
     container_name: kafka
     restart: always
@@ -83,14 +88,14 @@ services:
       - 9201:9200
       - 9301:9300
 
-  mongo:
-    image: mongo:3.7-jessie
-    container_name: mongo
-    restart: always
-    volumes:
-      - ../data_storage/mongo:/data/db
-    ports:
-      - 27017:27017
+  # mongo:
+  #   image: mongo:3.7-jessie
+  #   container_name: mongo
+  #   restart: always
+  #   volumes:
+  #     - ../data_storage/mongo:/data/db
+  #   ports:
+  #     - 27017:27017
 
   # oracle:
   #   image: sath89/oracle-12c
