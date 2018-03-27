@@ -66,27 +66,31 @@ services:
       - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
 
-  # elasticsearch:
-  #   image: elasticsearch:alpine
-  #   container_name: elasticsearch
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
-  #     - ../external_config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-  #   ports:
-  #     - 9200:9200
-  #     - 9300:9300
+  elasticsearch:
+    image: elasticsearch:alpine
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
+      - ../external_config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
-  # elasticsearch_1:
-  #   image: elasticsearch:alpine
-  #   container_name: elasticsearch_1
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/elasticsearch_1:/usr/share/elasticsearch/data
-  #     - ../external_config/elasticsearch/elasticsearch_1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-  #   ports:
-  #     - 9201:9200
-  #     - 9301:9300
+  elasticsearch_1:
+    image: elasticsearch:alpine
+    container_name: elasticsearch_1
+    restart: always
+    volumes:
+      - ../data_storage/elasticsearch_1:/usr/share/elasticsearch/data
+      - ../external_config/elasticsearch/elasticsearch_1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - 9201:9200
+      - 9301:9300
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
   # mongo:
   #   image: mongo:3.7-jessie
