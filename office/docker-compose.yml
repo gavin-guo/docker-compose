@@ -66,26 +66,26 @@ services:
       - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
 
-  elasticsearch:
+  elasticsearch1:
     image: elasticsearch:alpine
-    container_name: elasticsearch
+    container_name: elasticsearch1
     restart: always
     volumes:
-      - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
-      - ../external_config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ../data_storage/elasticsearch1:/usr/share/elasticsearch/data
+      - ../external_config/elasticsearch/elasticsearch1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - 9200:9200
       - 9300:9300
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
-  elasticsearch_1:
+  elasticsearch2:
     image: elasticsearch:alpine
-    container_name: elasticsearch_1
+    container_name: elasticsearch2
     restart: always
     volumes:
-      - ../data_storage/elasticsearch_1:/usr/share/elasticsearch/data
-      - ../external_config/elasticsearch/elasticsearch_1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ../data_storage/elasticsearch2:/usr/share/elasticsearch/data
+      - ../external_config/elasticsearch/elasticsearch2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - 9201:9200
       - 9301:9300

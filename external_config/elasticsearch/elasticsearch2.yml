@@ -1,7 +1,7 @@
 cluster.name: "es-cluster"
-node.name: node-1
+node.name: node-2
 node.master: false
 node.data: true
 network.host: 0.0.0.0
 discovery.zen.minimum_master_nodes: 1
-discovery.zen.ping.unicast.hosts: elasticsearch
+discovery.zen.ping.unicast.hosts: elasticsearch1

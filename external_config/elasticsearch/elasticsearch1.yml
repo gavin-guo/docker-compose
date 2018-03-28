@@ -1,5 +1,5 @@
 cluster.name: "es-cluster"
-node.name: master
+node.name: node-1
 node.master: true
 node.data: true
 network.host: 0.0.0.0
