@@ -17,14 +17,14 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=root
 
-  # redis:
-  #   image: redis:alpine
-  #   container_name: redis
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/redis:/data
-  #   ports:
-  #     - 6379:6379
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ../data_storage/redis:/data
+    ports:
+      - 6379:6379
 
   # redis-sentinel:
   #   image: yesuagg/redis-sentinel-cluster:0.1.0
@@ -34,14 +34,14 @@ services:
   #     - 6379-6381:6379-6381
   #     - 26379-26381:26379-26381
 
-  redis-cluster:
-    image: gaven/redis-cluster
-    container_name: redis-cluster
-    restart: always
-    ports:
-      - 7000-7005:7000-7005
-    environment:
-      - CLUSTER_ONLY=true
+  # redis-cluster:
+  #   image: gaven/redis-cluster
+  #   container_name: redis-cluster
+  #   restart: always
+  #   ports:
+  #     - 7000-7005:7000-7005
+  #   environment:
+  #     - CLUSTER_ONLY=true
 
   rabbitmq:
     image: rabbitmq:management-alpine
