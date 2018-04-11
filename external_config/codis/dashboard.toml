@@ -14,7 +14,7 @@ coordinator_addr = "127.0.0.1:2181"
 
 # Set Codis Product Name/Auth.
 product_name = "demo-test"
-product_auth = ""
+product_auth = "secret"
 
 # Set bind address for admin(rpc), tcp only.
 admin_addr = "0.0.0.0:18080"
