@@ -26,6 +26,19 @@ services:
     ports:
       - 6379:6379
 
+  codis:
+    image: gaven/codis
+    container_name: codis
+    restart: always
+    volumes:
+      - ../external_config/codis/config:/config
+    ports:
+      - 18090:18090
+      - 19000:19000
+      - 19001:19001
+    environment:
+      - GROUP_NUM=3
+
   # redis-sentinel:
   #   image: yesuagg/redis-sentinel-cluster:0.1.0
   #   container_name: redis-sentinel
