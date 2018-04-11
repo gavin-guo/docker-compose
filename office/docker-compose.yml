@@ -33,12 +33,14 @@ services:
     volumes:
       - ../external_config/codis:/template
     ports:
+      - 2181:2181
       - 18090:18090
       - 19000:19000
       - 19001:19001
     environment:
       - PROXY_NUM=1
       - GROUP_NUM=2
+      - SLAVE_NUM_PER_GROUP=1
 
   # redis-sentinel:
   #   image: yesuagg/redis-sentinel-cluster:0.1.0
