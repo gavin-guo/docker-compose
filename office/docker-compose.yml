@@ -17,26 +17,27 @@ services:
   #     - MYSQL_PASSWORD=mysql
   #     - MYSQL_ROOT_PASSWORD=root
 
-  # redis:
-  #   image: redis:alpine
-  #   container_name: redis
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/redis:/data
-  #   ports:
-  #     - 6379:6379
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ../data_storage/redis:/data
+    ports:
+      - 6379:6379
 
   codis:
     image: gaven/codis
     container_name: codis
     restart: always
     volumes:
-      - ../external_config/codis:/config
+      - ../external_config/codis:/template
     ports:
       - 18090:18090
       - 19000:19000
       - 19001:19001
     environment:
+      - PROXY_NUM=2
       - GROUP_NUM=3
 
   # redis-sentinel:
