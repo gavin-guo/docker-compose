@@ -38,9 +38,10 @@ services:
       - 19000:19000
       - 19001:19001
     environment:
-      - PROXY_NUM=1
+      - PROXY_NUM=2
       - GROUP_NUM=2
       - SLAVE_NUM_PER_GROUP=1
+      - ADD_EXTRA_REDIS=false
 
   # redis-sentinel:
   #   image: yesuagg/redis-sentinel-cluster:0.1.0
