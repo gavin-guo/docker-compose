@@ -34,12 +34,13 @@ services:
       - ../external_config/codis:/template
     ports:
       - 2181:2181
+      - 6380-6385:6380-6385
       - 18090:18090
       - 19000:19000
       - 19001:19001
     environment:
-      - PROXY_NUM=2
-      - GROUP_NUM=2
+      - PROXY_NUM=1
+      - GROUP_NUM=1
       - SLAVE_NUM_PER_GROUP=1
       - AUTO_ASSIGN_SLOTS=true
       - ADD_EXTRA_REDIS=false
@@ -72,7 +73,7 @@ services:
   #     - 15672:15672
 
   kafka:
-    image: gaven/kafka:1.0.0
+    image: gaven/kafka:0.9.0.1
     container_name: kafka
     restart: always
     ports:
@@ -83,6 +84,16 @@ services:
       - ADVERTISED_HOST=localhost
       - ADVERTISED_PORT=9092
 
+  # elasticsearch:
+  #   image: elasticsearch:alpine
+  #   container_name: elasticsearch
+  #   restart: always
+  #   volumes:
+  #     - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
+      
   # elasticsearch1:
   #   image: elasticsearch:alpine
   #   container_name: elasticsearch1
@@ -109,14 +120,14 @@ services:
   #   environment:
   #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
-  # mongo:
-  #   image: mongo:3.7-jessie
-  #   container_name: mongo
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/mongo:/data/db
-  #   ports:
-  #     - 27017:27017
+  mongo:
+    image: mongo:3.7-jessie
+    container_name: mongo
+    restart: always
+    volumes:
+      - ../data_storage/mongo:/data/db
+    ports:
+      - 27017:27017
 
   # oracle:
   #   image: sath89/oracle-12c
