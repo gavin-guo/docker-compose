@@ -6,7 +6,7 @@
 ##################################################
 
 # Set Codis Product Name/Auth.
-product_name = "demo-test"
+product_name = "gtja"
 product_auth = "secret"
 
 # Set auth for client session
@@ -14,7 +14,7 @@ product_auth = "secret"
 #      codis-proxy and codis-server.
 #   2. session_auth is different from product_auth, it requires clients
 #      to issue AUTH <PASSWORD> before processing any other commands.
-session_auth = "secret"
+session_auth = "gtja2018"
 
 # Set bind address for admin(rpc), tcp only.
 #admin_addr = "0.0.0.0:11080"

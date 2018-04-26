@@ -13,7 +13,7 @@ coordinator_addr = "127.0.0.1:2181"
 #coordinator_auth = ""
 
 # Set Codis Product Name/Auth.
-product_name = "demo-test"
+product_name = "gtja"
 product_auth = "secret"
 
 # Set bind address for admin(rpc), tcp only.
