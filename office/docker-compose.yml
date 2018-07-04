@@ -2,48 +2,48 @@ version: '2'
 
 services:
 
-  # mysql:
-  #   image: mysql:5.7
-  #   container_name: mysql
-  #   restart: always
-  #   # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
-  #   volumes:
-  #     - ../external_config/mysql:/etc/mysql/conf.d
-  #     - ../data_storage/mysql:/var/lib/mysql
-  #   ports:
-  #     - 3306:3306
-  #   environment:
-  #     - MYSQL_USER=mysql
-  #     - MYSQL_PASSWORD=mysql
-  #     - MYSQL_ROOT_PASSWORD=root
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
+    volumes:
+      - ../external_config/mysql:/etc/mysql/conf.d
+      - ../data_storage/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_ROOT_PASSWORD=root
 
-  # redis:
-  #   image: redis:alpine
-  #   container_name: redis
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/redis:/data
-  #   ports:
-  #     - 6379:6379
-
-  codis:
-    image: gaven/codis
-    container_name: codis
+  redis:
+    image: redis:alpine
+    container_name: redis
     restart: always
     volumes:
-      - ../external_config/codis:/template
+      - ../data_storage/redis:/data
     ports:
-      - 2181:2181
-      - 6380-6385:6380-6385
-      - 18090:18090
-      - 19000:19000
-      - 19001:19001
-    environment:
-      - PROXY_NUM=1
-      - GROUP_NUM=1
-      - SLAVE_NUM_PER_GROUP=1
-      - AUTO_ASSIGN_SLOTS=true
-      - ADD_EXTRA_REDIS=false
+      - 6379:6379
+
+  # codis:
+  #   image: gaven/codis
+  #   container_name: codis
+  #   restart: always
+  #   volumes:
+  #     - ../external_config/codis:/template
+  #   ports:
+  #     - 2181:2181
+  #     - 6380-6385:6380-6385
+  #     - 18090:18090
+  #     - 19000:19000
+  #     - 19001:19001
+  #   environment:
+  #     - PROXY_NUM=1
+  #     - GROUP_NUM=1
+  #     - SLAVE_NUM_PER_GROUP=1
+  #     - AUTO_ASSIGN_SLOTS=true
+  #     - ADD_EXTRA_REDIS=false
 
   # redis-sentinel:
   #   image: yesuagg/redis-sentinel-cluster:0.1.0
@@ -62,22 +62,22 @@ services:
   #   environment:
   #     - CLUSTER_ONLY=true
 
-  # rabbitmq:
-  #   image: rabbitmq:management-alpine
-  #   container_name: rabbitmq
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/rabbitmq:/var/lib/rabbitmq
-  #   ports:
-  #     - 5672:5672
-  #     - 15672:15672
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    restart: always
+    volumes:
+      - ../data_storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
 
   kafka:
-    image: gaven/kafka:0.9.0.1
+    image: gaven/kafka:1.0.0
     container_name: kafka
     restart: always
     ports:
-      - 12181:2181
+      - 2181:2181
       - 9092:9092
       - 9000:9000
     environment:
