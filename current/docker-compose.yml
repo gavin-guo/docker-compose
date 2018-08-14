@@ -17,14 +17,14 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=root
 
-  # redis:
-  #   image: redis:alpine
-  #   container_name: redis
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/redis:/data
-  #   ports:
-  #     - 6379:6379
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - ../data_storage/redis:/data
+    ports:
+      - 6379:6379
 
   # codis:
   #   image: gaven/codis
@@ -45,33 +45,6 @@ services:
   #     - AUTO_ASSIGN_SLOTS=true
   #     - ADD_EXTRA_REDIS=false
 
-  # redis-sentinel:
-  #   image: yesuagg/redis-sentinel-cluster:0.1.0
-  #   container_name: redis-sentinel
-  #   restart: always
-  #   ports:
-  #     - 6379-6381:6379-6381
-  #     - 26379-26381:26379-26381
-
-  # redis-cluster:
-  #   image: gaven/redis-cluster
-  #   container_name: redis-cluster
-  #   restart: always
-  #   ports:
-  #     - 7000-7005:7000-7005
-  #   environment:
-  #     - CLUSTER_ONLY=true
-
-  # rabbitmq:
-  #   image: rabbitmq:management-alpine
-  #   container_name: rabbitmq
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/rabbitmq:/var/lib/rabbitmq
-  #   ports:
-  #     - 5672:5672
-  #     - 15672:15672
-
   zookeeper:
     image: gaven/zookeeper
     container_name: zookeeper
@@ -83,17 +56,31 @@ services:
       - 2181:2181
       - 9090:9090
 
-  # kafka:
-  #   image: gaven/kafka:1.0.0
-  #   container_name: kafka
-  #   restart: always
-  #   ports:
-  #     - 2181:2181
-  #     - 9092:9092
-  #     - 9000:9000
-  #   environment:
-  #     - ADVERTISED_HOST=localhost
-  #     - ADVERTISED_PORT=9092
+  kafka:
+    image: gaven/kafka
+    container_name: kafka
+    restart: always
+    volumes:
+      - ../data_storage/kafka:/tmp/kafka-logs
+    ports:
+      - 9092:9092
+      - 9000:9000
+    environment:
+      - ADVERTISED_HOST=localhost
+      - ADVERTISED_PORT=9092
+      - ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    restart: always
+    volumes:
+      - ../data_storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
 
   # elasticsearch:
   #   image: elasticsearch:alpine
