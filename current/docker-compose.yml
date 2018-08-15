@@ -38,9 +38,9 @@ services:
       - 9092:9092
       - 9000:9000
     environment:
-      - ADVERTISED_HOST=localhost
-      - ADVERTISED_PORT=9092
       - ZOOKEEPER_CONNECT=zookeeper:2181
+      # - ADVERTISED_HOST=192.168.200.211
+      # - ADVERTISED_PORT=9092
     depends_on:
       - zookeeper
 
@@ -132,8 +132,14 @@ services:
     image: gaven/maxwell
     container_name: maxwell
     restart: always
-    volumes:
-      - ../external_config/maxwell:/config
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - INCLUDE_DBS=xiaoshu
+      - INCLUDE_TABLES=customer,customer_attr
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       - mysql
       - kafka
