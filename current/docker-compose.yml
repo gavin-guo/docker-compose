@@ -83,6 +83,15 @@ services:
   #   depends_on:
   #     - zookeeper
 
+  mongo:
+    image: mongo:3.7-jessie
+    container_name: mongo
+    restart: always
+    volumes:
+      - ../data_storage/mongo:/data/db
+    ports:
+      - 27017:27017
+
   # elasticsearch:
   #   image: elasticsearch:alpine
   #   container_name: elasticsearch
@@ -118,15 +127,6 @@ services:
   #     - 9301:9300
   #   environment:
   #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-
-  # mongo:
-  #   image: mongo:3.7-jessie
-  #   container_name: mongo
-  #   restart: always
-  #   volumes:
-  #     - ../data_storage/mongo:/data/db
-  #   ports:
-  #     - 27017:27017
 
   # oracle:
   #   image: sath89/oracle-12c
