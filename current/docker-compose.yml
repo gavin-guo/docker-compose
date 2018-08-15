@@ -128,6 +128,16 @@ services:
   #   environment:
   #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
+  maxwell:
+    image: gaven/maxwell
+    container_name: maxwell
+    restart: always
+    volumes:
+      - ../external_config/maxwell:/config
+    depends_on:
+      - mysql
+      - kafka
+
   # oracle:
   #   image: sath89/oracle-12c
   #   container_name: oracle
