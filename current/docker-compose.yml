@@ -39,8 +39,7 @@ services:
       - 9000:9000
     environment:
       - ZOOKEEPER_CONNECT=zookeeper:2181
-      - ADVERTISED_HOST=localhost
-      - ADVERTISED_PORT=9092
+      - ADVERTISED_LISTENERS=192.168.200.211:9092
     depends_on:
       - zookeeper
 
