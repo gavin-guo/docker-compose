@@ -91,6 +91,7 @@ services:
       - /opt/log/stash:/input
     environment:
       - ELASTICSEARCH_CONNECT=elasticsearch:9200
+      - HOSTNAME=macos
     depends_on:
       - elasticsearch
       
