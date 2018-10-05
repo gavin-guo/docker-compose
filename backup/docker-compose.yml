@@ -24,14 +24,16 @@ services:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
     depends_on:
       - elasticsearch
-      
+ 
   filebeat:
-    image: gaven/filebeat
+    image: gaven/filebeat:5.5.0
     container_name: filebeat
     restart: always
     volumes:
-      - ../external_config/filebeat/filebeat.yml:/filebeat.yml
       - /opt/log/stash:/input
+    environment:
+      - ELASTICSEARCH_ENDPOINT=elasticsearch:9200
+      - HOSTNAME=macos
     depends_on:
       - elasticsearch
       
