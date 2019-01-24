@@ -39,7 +39,7 @@ services:
       - 9000:9000
     environment:
       - ZOOKEEPER_CONNECT=zookeeper:2181
-      - ADVERTISED_LISTENERS=192.168.1.80:9092
+      - ADVERTISED_LISTENERS=10.118.118.63:9092
     depends_on:
       - zookeeper
 
@@ -153,3 +153,33 @@ services:
   #     - 1521:1521
   #   environment:
   #     - DBCA_TOTAL_MEMORY=1024
+
+  # kibana:
+  #   image: kibana
+  #   container_name: kibana
+  #   restart: always
+  #   ports:
+  #     - 5601:5601
+  #   environment:
+  #     - ELASTICSEARCH_URL=http://elasticsearch:9200
+  #   depends_on:
+  #     - elasticsearch
+      
+  # registry:
+  #   image: registry
+  #   container_name: registry
+  #   restart: always
+  #   volumes:
+  #     # - ./external_config/registry/certs:/certs
+  #     - ../external_config/registry/auth:/auth
+  #     - ../data_storage/registry:/var/lib/registry
+  #   ports:
+  #     - 80:80
+  #   environment:
+  #     - REGISTRY_HTTP_ADDR=0.0.0.0:80
+  #     # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt
+  #     # - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
+  #     - REGISTRY_AUTH=htpasswd
+  #     - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+  #     - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+  #     # docker login registry.gavin.com username/password = gavin/gavin
