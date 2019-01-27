@@ -8,8 +8,8 @@ services:
     restart: always
     # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
     volumes:
-      - ../external_config/mysql:/etc/mysql/conf.d
-      - ../data_storage/mysql:/var/lib/mysql
+      - ./external_config/mysql:/etc/mysql/conf.d
+      - ./data_storage/mysql:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
@@ -22,8 +22,8 @@ services:
     container_name: zookeeper
     restart: always
     volumes:
-      - ../data_storage/zookeeper/data:/data
-      - ../data_storage/zookeeper/datalog:/datalog
+      - ./data_storage/zookeeper/data:/data
+      - ./data_storage/zookeeper/datalog:/datalog
     ports:
       - 2181:2181
       - 9090:9090
@@ -33,13 +33,13 @@ services:
     container_name: kafka
     restart: always
     volumes:
-      - ../data_storage/kafka:/tmp/kafka-logs
+      - ./data_storage/kafka:/tmp/kafka-logs
     ports:
       - 9092:9092
       - 9000:9000
     environment:
       - ZOOKEEPER_CONNECT=zookeeper:2181
-      - ADVERTISED_LISTENERS=10.118.118.63:9092
+      - ADVERTISED_LISTENERS=192.168.1.80:9092
     depends_on:
       - zookeeper
 
@@ -48,7 +48,7 @@ services:
     container_name: rabbitmq
     restart: always
     volumes:
-      - ../data_storage/rabbitmq:/var/lib/rabbitmq
+      - ./data_storage/rabbitmq:/var/lib/rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
@@ -58,7 +58,7 @@ services:
     container_name: redis
     restart: always
     volumes:
-      - ../data_storage/redis:/data
+      - ./data_storage/redis:/data
     ports:
       - 6379:6379
 
@@ -67,7 +67,7 @@ services:
   #   container_name: codis
   #   restart: always
   #   volumes:
-  #     - ../data_storage/codis:/data
+  #     - ./data_storage/codis:/data
   #   ports:
   #     - 6380-6385:6380-6385
   #     - 18090:18090
@@ -87,7 +87,7 @@ services:
   #   container_name: mongo
   #   restart: always
   #   volumes:
-  #     - ../data_storage/mongo:/data/db
+  #     - ./data_storage/mongo:/data/db
   #   ports:
   #     - 27017:27017
 
@@ -96,7 +96,7 @@ services:
   #   container_name: elasticsearch
   #   restart: always
   #   volumes:
-  #     - ../data_storage/elasticsearch:/usr/share/elasticsearch/data
+  #     - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
   #   ports:
   #     - 9200:9200
   #     - 9300:9300
@@ -106,8 +106,8 @@ services:
   #   container_name: elasticsearch1
   #   restart: always
   #   volumes:
-  #     - ../data_storage/elasticsearch1:/usr/share/elasticsearch/data
-  #     - ../external_config/elasticsearch/elasticsearch1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #     - ./data_storage/elasticsearch1:/usr/share/elasticsearch/data
+  #     - ./external_config/elasticsearch/elasticsearch1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
   #   ports:
   #     - 9200:9200
   #     - 9300:9300
@@ -119,8 +119,8 @@ services:
   #   container_name: elasticsearch2
   #   restart: always
   #   volumes:
-  #     - ../data_storage/elasticsearch2:/usr/share/elasticsearch/data
-  #     - ../external_config/elasticsearch/elasticsearch2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #     - ./data_storage/elasticsearch2:/usr/share/elasticsearch/data
+  #     - ./external_config/elasticsearch/elasticsearch2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
   #   ports:
   #     - 9201:9200
   #     - 9301:9300
@@ -148,7 +148,7 @@ services:
   #   container_name: oracle
   #   restart: always
   #   volumes:
-  #     - ../data_storage/oracle:/u01/app/oracle
+  #     - ./data_storage/oracle:/u01/app/oracle
   #   ports:
   #     - 1521:1521
   #   environment:
@@ -171,8 +171,8 @@ services:
   #   restart: always
   #   volumes:
   #     # - ./external_config/registry/certs:/certs
-  #     - ../external_config/registry/auth:/auth
-  #     - ../data_storage/registry:/var/lib/registry
+  #     - ./external_config/registry/auth:/auth
+  #     - ./data_storage/registry:/var/lib/registry
   #   ports:
   #     - 80:80
   #   environment:
@@ -183,3 +183,64 @@ services:
   #     - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
   #     - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
   #     # docker login registry.gavin.com username/password = gavin/gavin
+
+  # filebeat:
+  #   image: gaven/filebeat:5.5.0
+  #   container_name: filebeat
+  #   restart: always
+  #   volumes:
+  #     - /opt/log/stash:/input
+  #   environment:
+  #     - ELASTICSEARCH_ENDPOINT=elasticsearch:9200
+  #     - HOSTNAME=macos
+  #   depends_on:
+  #     - elasticsearch
+      
+  # logstash:
+  #   image: logstash
+  #   container_name: logstash
+  #   restart: always
+  #   command: logstash -f /config/logstash.conf
+  #   # command: logstash -e 'input { udp { port => 4560 codec => json } } output { elasticsearch { hosts => "elasticsearch:9200" } }'
+  #   # ports:
+  #   #   - 4560:4560/udp
+  #   volumes:
+  #     - ./external_config/logstash:/config
+  #   depends_on:
+  #     - elasticsearch
+
+  # haproxy:
+  #   image: haproxy:alpine
+  #   container_name: haproxy
+  #   restart: always
+  #   volumes:
+  #     - ./external_config/haproxy:/usr/local/etc/haproxy:ro
+  #   ports:
+  #     - 9999:9999
+
+  # nexus:
+  #   image: sonatype/nexus3
+  #   container_name: nexus
+  #   restart: always
+  #   volumes:
+  #     # chown -R 200 ../data_storage/nexus
+  #     - ./data_storage/nexus:/nexus-data
+  #   ports:
+  #     - 8081:8081
+
+  # redis-sentinel:
+  #   image: yesuagg/redis-sentinel-cluster:0.1.0
+  #   container_name: redis-sentinel
+  #   restart: always
+  #   ports:
+  #     - 6379-6381:6379-6381
+  #     - 26379-26381:26379-26381
+
+  # redis-cluster:
+  #   image: gaven/redis-cluster
+  #   container_name: redis-cluster
+  #   restart: always
+  #   ports:
+  #     - 7000-7005:7000-7005
+  #   environment:
+  #     - CLUSTER_ONLY=true
