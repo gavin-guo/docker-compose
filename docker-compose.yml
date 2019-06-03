@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -26,7 +26,7 @@ services:
       - ./data_storage/zookeeper/datalog:/datalog
     ports:
       - 2181:2181
-      - 9090:9090
+      # - 9090:9090
 
   kafka:
     image: gaven/kafka
@@ -36,10 +36,10 @@ services:
       - ./data_storage/kafka:/tmp/kafka-logs
     ports:
       - 9092:9092
-      - 9000:9000
+      # - 9000:9000
     environment:
       - ZOOKEEPER_CONNECT=zookeeper:2181
-      - ADVERTISED_LISTENERS=192.168.1.80:9092
+      - ADVERTISED_LISTENERS=192.168.200.101:9092
     depends_on:
       - zookeeper
 
@@ -82,14 +82,14 @@ services:
   #   depends_on:
   #     - zookeeper
 
-  # mongo:
-  #   image: mongo:3.7-jessie
-  #   container_name: mongo
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/mongo:/data/db
-  #   ports:
-  #     - 27017:27017
+  mongo:
+    image: mongo:3.7-jessie
+    container_name: mongo
+    restart: always
+    volumes:
+      - ./data_storage/mongo:/data/db
+    ports:
+      - 27017:27017
 
   # elasticsearch:
   #   image: elasticsearch:alpine
