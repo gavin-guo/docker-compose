@@ -27,21 +27,6 @@ services:
     ports:
       - 2181:2181
 
-  #  kafka:
-  #    image: gaven/kafka
-  #    container_name: kafka
-  #    restart: always
-  #    volumes:
-  #      - ./data_storage/kafka:/tmp/kafka-logs
-  #    ports:
-  #      - 9092:9092
-  #      # - 9000:9000
-  #    environment:
-  #      - ZOOKEEPER_CONNECT=zookeeper:2181
-  #      - ADVERTISED_LISTENERS=192.168.200.101:9092
-  #    depends_on:
-  #      - zookeeper
-
   kafka:
     image: gaven/kafka:zk-built-in
     container_name: kafka
@@ -83,130 +68,145 @@ services:
     ports:
       - 27017:27017
 
-      # codis:
-      #   image: gaven/codis
-      #   container_name: codis
-      #   restart: always
-      #   volumes:
-      #     - ./data_storage/codis:/data
-      #   ports:
-      #     - 6380-6385:6380-6385
-      #     - 18090:18090
-      #     - 19000-19002:19000-19002
-      #   environment:
-      #     - ZOOKEEPER_CONNECT=zookeeper:2181
-      #     - PROXY_NUM=1
-      #     - GROUP_NUM=2
-      #     - SLAVE_NUM_PER_GROUP=1
-      #     - AUTO_ASSIGN_SLOTS=true
-      #     - ADD_EXTRA_REDIS=false
-      #   depends_on:
-      #     - zookeeper
+  elasticsearch:
+    image: elasticsearch:alpine
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
 
-      # elasticsearch:
-      #   image: elasticsearch:alpine
-      #   container_name: elasticsearch
-      #   restart: always
-      #   volumes:
-      #     - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
-      #   ports:
-      #     - 9200:9200
-      #     - 9300:9300
+  #  kafka:
+  #    image: gaven/kafka
+  #    container_name: kafka
+  #    restart: always
+  #    volumes:
+  #      - ./data_storage/kafka:/tmp/kafka-logs
+  #    ports:
+  #      - 9092:9092
+  #      # - 9000:9000
+  #    environment:
+  #      - ZOOKEEPER_CONNECT=zookeeper:2181
+  #      - ADVERTISED_LISTENERS=192.168.200.101:9092
+  #    depends_on:
+  #      - zookeeper
 
-      # elasticsearch1:
-      #   image: elasticsearch:alpine
-      #   container_name: elasticsearch1
-      #   restart: always
-      #   volumes:
-      #     - ./data_storage/elasticsearch1:/usr/share/elasticsearch/data
-      #     - ./external_config/elasticsearch/elasticsearch1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      #   ports:
-      #     - 9200:9200
-      #     - 9300:9300
-      #   environment:
-      #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  # codis:
+  #   image: gaven/codis
+  #   container_name: codis
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/codis:/data
+  #   ports:
+  #     - 6380-6385:6380-6385
+  #     - 18090:18090
+  #     - 19000-19002:19000-19002
+  #   environment:
+  #     - ZOOKEEPER_CONNECT=zookeeper:2181
+  #     - PROXY_NUM=1
+  #     - GROUP_NUM=2
+  #     - SLAVE_NUM_PER_GROUP=1
+  #     - AUTO_ASSIGN_SLOTS=true
+  #     - ADD_EXTRA_REDIS=false
+  #   depends_on:
+  #     - zookeeper
 
-      # elasticsearch2:
-      #   image: elasticsearch:alpine
-      #   container_name: elasticsearch2
-      #   restart: always
-      #   volumes:
-      #     - ./data_storage/elasticsearch2:/usr/share/elasticsearch/data
-      #     - ./external_config/elasticsearch/elasticsearch2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      #   ports:
-      #     - 9201:9200
-      #     - 9301:9300
-      #   environment:
-      #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  # elasticsearch1:
+  #   image: elasticsearch:alpine
+  #   container_name: elasticsearch1
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/elasticsearch1:/usr/share/elasticsearch/data
+  #     - ./external_config/elasticsearch/elasticsearch1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
+  #   environment:
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
-      # maxwell:
-      #   image: gaven/maxwell
-      #   container_name: maxwell
-      #   restart: always
-      #   environment:
-      #     - MYSQL_HOST=mysql
-      #     - MYSQL_PORT=3306
-      #     - MYSQL_USER=root
-      #     - MYSQL_PASSWORD=root
-      #     - INCLUDE_DBS=xiaoshu
-      #     - INCLUDE_TABLES=customer,customer_attr
-      #     - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-      #   depends_on:
-      #     - mysql
-      #     - kafka
+  # elasticsearch2:
+  #   image: elasticsearch:alpine
+  #   container_name: elasticsearch2
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/elasticsearch2:/usr/share/elasticsearch/data
+  #     - ./external_config/elasticsearch/elasticsearch2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+  #   ports:
+  #     - 9201:9200
+  #     - 9301:9300
+  #   environment:
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
-      # oracle:
-      #   image: sath89/oracle-12c
-      #   container_name: oracle
-      #   restart: always
-      #   volumes:
-      #     - ./data_storage/oracle:/u01/app/oracle
-      #   ports:
-      #     - 1521:1521
-      #   environment:
-      #     - DBCA_TOTAL_MEMORY=1024
+  # maxwell:
+  #   image: gaven/maxwell
+  #   container_name: maxwell
+  #   restart: always
+  #   environment:
+  #     - MYSQL_HOST=mysql
+  #     - MYSQL_PORT=3306
+  #     - MYSQL_USER=root
+  #     - MYSQL_PASSWORD=root
+  #     - INCLUDE_DBS=xiaoshu
+  #     - INCLUDE_TABLES=customer,customer_attr
+  #     - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+  #   depends_on:
+  #     - mysql
+  #     - kafka
 
-      # kibana:
-      #   image: kibana
-      #   container_name: kibana
-      #   restart: always
-      #   ports:
-      #     - 5601:5601
-      #   environment:
-      #     - ELASTICSEARCH_URL=http://elasticsearch:9200
-      #   depends_on:
-      #     - elasticsearch
+  # oracle:
+  #   image: sath89/oracle-12c
+  #   container_name: oracle
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/oracle:/u01/app/oracle
+  #   ports:
+  #     - 1521:1521
+  #   environment:
+  #     - DBCA_TOTAL_MEMORY=1024
 
-      # registry:
-      #   image: registry
-      #   container_name: registry
-      #   restart: always
-      #   volumes:
-      #     # - ./external_config/registry/certs:/certs
-      #     - ./external_config/registry/auth:/auth
-      #     - ./data_storage/registry:/var/lib/registry
-      #   ports:
-      #     - 80:80
-      #   environment:
-      #     - REGISTRY_HTTP_ADDR=0.0.0.0:80
-      #     # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt
-      #     # - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
-      #     - REGISTRY_AUTH=htpasswd
-      #     - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
-      #     - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
-      #     # docker login registry.gavin.com username/password = gavin/gavin
+  # kibana:
+  #   image: kibana
+  #   container_name: kibana
+  #   restart: always
+  #   ports:
+  #     - 5601:5601
+  #   environment:
+  #     - ELASTICSEARCH_URL=http://elasticsearch:9200
+  #   depends_on:
+  #     - elasticsearch
 
-      # filebeat:
-      #   image: gaven/filebeat:5.5.0
-      #   container_name: filebeat
-      #   restart: always
-      #   volumes:
-      #     - /opt/log/stash:/input
-      #   environment:
-      #     - ELASTICSEARCH_ENDPOINT=elasticsearch:9200
-      #     - HOSTNAME=macos
-      #   depends_on:
-      #     - elasticsearch
+  # registry:
+  #   image: registry
+  #   container_name: registry
+  #   restart: always
+  #   volumes:
+  #     # - ./external_config/registry/certs:/certs
+  #     - ./external_config/registry/auth:/auth
+  #     - ./data_storage/registry:/var/lib/registry
+  #   ports:
+  #     - 80:80
+  #   environment:
+  #     - REGISTRY_HTTP_ADDR=0.0.0.0:80
+  #     # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt
+  #     # - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
+  #     - REGISTRY_AUTH=htpasswd
+  #     - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+  #     - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+  #     # docker login registry.gavin.com username/password = gavin/gavin
+
+  # filebeat:
+  #   image: gaven/filebeat:5.5.0
+  #   container_name: filebeat
+  #   restart: always
+  #   volumes:
+  #     - /opt/log/stash:/input
+  #   environment:
+  #     - ELASTICSEARCH_ENDPOINT=elasticsearch:9200
+  #     - HOSTNAME=macos
+  #   depends_on:
+  #     - elasticsearch
 
   # logstash:
   #   image: logstash
