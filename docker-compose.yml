@@ -69,7 +69,7 @@ services:
       - 27017:27017
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
     container_name: elasticsearch
     restart: always
     volumes:
@@ -81,16 +81,16 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "discovery.type=single-node"
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.3.0
-    container_name: kibana
-    restart: always
-    ports:
-      - 5601:5601
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    depends_on:
-      - elasticsearch
+  #  kibana:
+  #    image: docker.elastic.co/kibana/kibana:7.3.0
+  #    container_name: kibana
+  #    restart: always
+  #    ports:
+  #      - 5601:5601
+  #    environment:
+  #      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #    depends_on:
+  #      - elasticsearch
 
   #  kafka:
   #    image: gaven/kafka
