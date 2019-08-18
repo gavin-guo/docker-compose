@@ -153,7 +153,7 @@ services:
   #   environment:
   #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 
-  # maxwell:
+  #  maxwell:
   #   image: gaven/maxwell
   #   container_name: maxwell
   #   restart: always
@@ -165,6 +165,7 @@ services:
   #     - INCLUDE_DBS=xiaoshu
   #     - INCLUDE_TABLES=customer,customer_attr
   #     - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+  #     - IGNORE_PRODUCER_ERROR=false
   #   depends_on:
   #     - mysql
   #     - kafka
