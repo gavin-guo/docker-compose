@@ -17,15 +17,15 @@ services:
       - MYSQL_PASSWORD=mysql
       - MYSQL_ROOT_PASSWORD=root
 
-  zookeeper:
-    image: gaven/zookeeper
-    container_name: zookeeper
-    restart: always
-    volumes:
-      - ./data_storage/zookeeper/data:/data
-      - ./data_storage/zookeeper/datalog:/datalog
-    ports:
-      - 2181:2181
+  # zookeeper:
+  #   image: gaven/zookeeper
+  #   container_name: zookeeper
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/zookeeper/data:/data
+  #     - ./data_storage/zookeeper/datalog:/datalog
+  #   ports:
+  #     - 2181:2181
 
   kafka:
     image: gaven/kafka:zk-built-in
@@ -37,6 +37,20 @@ services:
       - ./data_storage/kafka/data:/opt/kafka/kafka-logs
     ports:
       - 9092:9092
+      - 2181:2181
+    environment:
+      - ZOO_PORT=2181
+
+  kafka010:
+    image: gaven/kafka:0.10.2.2
+    container_name: kafka010
+    restart: always
+    volumes:
+      - ./data_storage/kafka010/zookeeper/data:/opt/zookeeper/data
+      - ./data_storage/kafka010/zookeeper/datalog:/opt/zookeeper/datalog
+      - ./data_storage/kafka010/data:/opt/kafka/kafka-logs
+    ports:
+      - 19092:9092
     environment:
       - ZOO_PORT=12181
 
@@ -60,26 +74,29 @@ services:
       - 6379:6379
 
   mongo:
-    image: mongo:3.7-jessie
+    image: mongo:3-xenial
     container_name: mongo
     restart: always
     volumes:
       - ./data_storage/mongo:/data/db
     ports:
       - 27017:27017
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
-    container_name: elasticsearch
-    restart: always
-    volumes:
-      - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-      - 9300:9300
     environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "discovery.type=single-node"
+      - MONGO_INITDB_ROOT_USERNAME=test
+      - MONGO_INITDB_ROOT_PASSWORD=test
+
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+  #   container_name: elasticsearch
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
+  #   environment:
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #     - "discovery.type=single-node"
 
   #  kibana:
   #    image: docker.elastic.co/kibana/kibana:7.3.0
@@ -152,23 +169,6 @@ services:
   #     - 9301:9300
   #   environment:
   #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-
-  #  maxwell:
-  #   image: gaven/maxwell
-  #   container_name: maxwell
-  #   restart: always
-  #   environment:
-  #     - MYSQL_HOST=mysql
-  #     - MYSQL_PORT=3306
-  #     - MYSQL_USER=root
-  #     - MYSQL_PASSWORD=root
-  #     - INCLUDE_DBS=xiaoshu
-  #     - INCLUDE_TABLES=customer,customer_attr
-  #     - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
-  #     - IGNORE_PRODUCER_ERROR=false
-  #   depends_on:
-  #     - mysql
-  #     - kafka
 
   # oracle:
   #   image: sath89/oracle-12c

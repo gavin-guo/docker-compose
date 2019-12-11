@@ -1,5 +1,8 @@
 [mysqld]
 server_id = 1
+log-bin=master
+binlog_format=row
+binlog_row_image=FULL
 
 character-set-server=utf8
 collation-server=utf8_unicode_ci
@@ -8,9 +11,8 @@ character-set-client-handshake=0
 
 default-storage-engine=INNODB
 
-log_bin=master
 log_bin_trust_function_creators=1
-binlog_format=row
+
 expire_logs_days=99
 sync_binlog=0
 
