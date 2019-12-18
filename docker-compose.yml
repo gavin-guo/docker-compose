@@ -41,18 +41,20 @@ services:
     environment:
       - ZOO_PORT=2181
 
-  kafka010:
+  kafka-0.10:
     image: gaven/kafka:0.10.2.2
-    container_name: kafka010
+    container_name: kafka-0.10
     restart: always
     volumes:
-      - ./data_storage/kafka010/zookeeper/data:/opt/zookeeper/data
-      - ./data_storage/kafka010/zookeeper/datalog:/opt/zookeeper/datalog
-      - ./data_storage/kafka010/data:/opt/kafka/kafka-logs
+      - ./data_storage/kafka-010/zookeeper/data:/opt/zookeeper/data
+      - ./data_storage/kafka-010/zookeeper/datalog:/opt/zookeeper/datalog
+      - ./data_storage/kafka-010/data:/opt/kafka/kafka-logs
     ports:
-      - 19092:9092
+      - 19092:19092
+      - 12181:12181
     environment:
       - ZOO_PORT=12181
+      - KAFKA_PORT=19092
 
   rabbitmq:
     image: rabbitmq:management-alpine
