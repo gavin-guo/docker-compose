@@ -41,15 +41,15 @@ services:
     environment:
       - ZOO_PORT=2181
 
-  rabbitmq:
-    image: rabbitmq:management-alpine
-    container_name: rabbitmq
-    restart: always
-    volumes:
-      - ./data_storage/rabbitmq:/var/lib/rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
+  # rabbitmq:
+  #   image: rabbitmq:management-alpine
+  #   container_name: rabbitmq
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/rabbitmq:/var/lib/rabbitmq
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
 
   redis:
     image: redis:alpine
@@ -72,18 +72,18 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=test
       - MONGO_INITDB_ROOT_PASSWORD=test
 
-  # elasticsearch:
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
-  #   container_name: elasticsearch
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
-  #   ports:
-  #     - 9200:9200
-  #     - 9300:9300
-  #   environment:
-  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  #     - "discovery.type=single-node"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+    container_name: elasticsearch
+    restart: always
+    volumes:
+      - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
 
   #  kibana:
   #    image: docker.elastic.co/kibana/kibana:7.3.0
