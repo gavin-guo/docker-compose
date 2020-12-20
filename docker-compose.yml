@@ -27,6 +27,25 @@ services:
   #   ports:
   #     - 2181:2181
 
+  hbase:
+    image: harisekhon/hbase
+    container_name: hbase
+    restart: always
+    volumes:
+      - ./data_storage/hbase:/hbase-data
+    ports:
+      - 2181:2181
+      - 8080:8080
+      - 8085:8085
+      - 9090:9090
+      - 9095:9095
+      - 16000:16000
+      - 16010:16010
+      - 16201:16201
+      - 16301:16301
+      - 16030:16030
+      - 16020:16020
+
   kafka:
     image: gaven/kafka:zk-built-in
     container_name: kafka
@@ -37,7 +56,7 @@ services:
       - ./data_storage/kafka/data:/opt/kafka/kafka-logs
     ports:
       - 9092:9092
-      - 2181:2181
+      - 2180:2181
     environment:
       - ZOO_PORT=2181
 
