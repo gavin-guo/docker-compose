@@ -91,6 +91,18 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=test
       - MONGO_INITDB_ROOT_PASSWORD=test
 
+  impala-kudu:
+    image: josemyd/all-in-one-impala-kudu
+    container_name: impala-kudu
+    restart: always
+    ports:
+      - 7051:7051
+      - 21000:21000
+      - 21050:21050
+      - 25000:25000
+      - 25010:25010
+      - 25020:25020
+
 #  elasticsearch:
 #    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
 #    container_name: elasticsearch
