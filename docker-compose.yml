@@ -96,7 +96,10 @@ services:
     container_name: impala-kudu
     restart: always
     ports:
+      - 7050:7050
       - 7051:7051
+      - 8050:8050 
+      - 8051:8051
       - 21000:21000
       - 21050:21050
       - 25000:25000
