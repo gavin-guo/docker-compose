@@ -17,34 +17,34 @@ services:
   #     - MYSQL_PASSWORD=mysql
   #     - MYSQL_ROOT_PASSWORD=root
 
-  # zookeeper:
-  #   image: gaven/zookeeper
-  #   container_name: zookeeper
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/zookeeper/data:/data
-  #     - ./data_storage/zookeeper/datalog:/datalog
-  #   ports:
-  #     - 2181:2181
-
-  hbase:
-    image: harisekhon/hbase
-    container_name: hbase
+  zookeeper:
+    image: gaven/zookeeper
+    container_name: zookeeper
     restart: always
     volumes:
-      - ./data_storage/hbase:/hbase-data
+      - ./data_storage/zookeeper/data:/data
+      - ./data_storage/zookeeper/datalog:/datalog
     ports:
       - 2181:2181
-      - 8080:8080
-      - 8085:8085
-      - 9090:9090
-      - 9095:9095
-      - 16000:16000
-      - 16010:16010
-      - 16201:16201
-      - 16301:16301
-      - 16030:16030
-      - 16020:16020
+
+  # hbase:
+  #   image: harisekhon/hbase
+  #   container_name: hbase
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/hbase:/hbase-data
+  #   ports:
+  #     - 2181:2181
+  #     - 8080:8080
+  #     - 8085:8085
+  #     - 9090:9090
+  #     - 9095:9095
+  #     - 16000:16000
+  #     - 16010:16010
+  #     - 16201:16201
+  #     - 16301:16301
+  #     - 16030:16030
+  #     - 16020:16020
 
   kafka:
     image: gaven/kafka:zk-built-in
@@ -91,20 +91,20 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=test
       - MONGO_INITDB_ROOT_PASSWORD=test
 
-  impala-kudu:
-    image: josemyd/all-in-one-impala-kudu
-    container_name: impala-kudu
-    restart: always
-    ports:
-      - 7050:7050
-      - 7051:7051
-      - 8050:8050 
-      - 8051:8051
-      - 21000:21000
-      - 21050:21050
-      - 25000:25000
-      - 25010:25010
-      - 25020:25020
+  # impala-kudu:
+  #   image: josemyd/all-in-one-impala-kudu
+  #   container_name: impala-kudu
+  #   restart: always
+  #   ports:
+  #     - 7050:7050
+  #     - 7051:7051
+  #     - 8050:8050 
+  #     - 8051:8051
+  #     - 21000:21000
+  #     - 21050:21050
+  #     - 25000:25000
+  #     - 25010:25010
+  #     - 25020:25020
 
 #  elasticsearch:
 #    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
