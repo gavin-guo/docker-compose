@@ -2,49 +2,34 @@ version: '3.7'
 
 services:
 
-  # mysql:
-  #   image: mysql:5.7
-  #   container_name: mysql
-  #   restart: always
-  #   # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
-  #   volumes:
-  #     - ./external_config/mysql:/etc/mysql/conf.d
-  #     - ./data_storage/mysql:/var/lib/mysql
-  #   ports:
-  #     - 3306:3306
-  #   environment:
-  #     - MYSQL_USER=mysql
-  #     - MYSQL_PASSWORD=mysql
-  #     - MYSQL_ROOT_PASSWORD=root
-
-  # zookeeper:
-  #   image: gaven/zookeeper
-  #   container_name: zookeeper
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/zookeeper/data:/data
-  #     - ./data_storage/zookeeper/datalog:/datalog
-  #   ports:
-  #     - 2181:2181
-
-  hbase:
-    image: harisekhon/hbase
-    container_name: hbase
+  zookeeper:
+    image: gaven/zookeeper
+    container_name: zookeeper
     restart: always
     volumes:
-      - ./data_storage/hbase:/hbase-data
+      - ./data_storage/zookeeper/data:/data
+      - ./data_storage/zookeeper/datalog:/datalog
     ports:
       - 2181:2181
-      - 8080:8080
-      - 8085:8085
-      - 9090:9090
-      - 9095:9095
-      - 16000:16000
-      - 16010:16010
-      - 16201:16201
-      - 16301:16301
-      - 16030:16030
-      - 16020:16020
+
+  # hbase:
+  #   image: harisekhon/hbase
+  #   container_name: hbase
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/hbase:/hbase-data
+  #   ports:
+  #     - 2181:2181
+  #     - 8080:8080
+  #     - 8085:8085
+  #     - 9090:9090
+  #     - 9095:9095
+  #     - 16000:16000
+  #     - 16010:16010
+  #     - 16201:16201
+  #     - 16301:16301
+  #     - 16030:16030
+  #     - 16020:16020
 
   kafka:
     image: gaven/kafka:zk-built-in
@@ -59,16 +44,6 @@ services:
       - 2180:2181
     environment:
       - ZOO_PORT=2181
-
-  # rabbitmq:
-  #   image: rabbitmq:management-alpine
-  #   container_name: rabbitmq
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/rabbitmq:/var/lib/rabbitmq
-  #   ports:
-  #     - 5672:5672
-  #     - 15672:15672
 
   redis:
     image: redis:alpine
@@ -91,34 +66,59 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=test
       - MONGO_INITDB_ROOT_PASSWORD=test
 
-  impala-kudu:
-    image: josemyd/all-in-one-impala-kudu
-    container_name: impala-kudu
-    restart: always
-    ports:
-      - 7050:7050
-      - 7051:7051
-      - 8050:8050 
-      - 8051:8051
-      - 21000:21000
-      - 21050:21050
-      - 25000:25000
-      - 25010:25010
-      - 25020:25020
+  # impala-kudu:
+  #   image: josemyd/all-in-one-impala-kudu
+  #   container_name: impala-kudu
+  #   restart: always
+  #   ports:
+  #     - 7050:7050
+  #     - 7051:7051
+  #     - 8050:8050 
+  #     - 8051:8051
+  #     - 21000:21000
+  #     - 21050:21050
+  #     - 25000:25000
+  #     - 25010:25010
+  #     - 25020:25020
 
-#  elasticsearch:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
-#    container_name: elasticsearch
-#    restart: always
-#    volumes:
-#      - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
-#    ports:
-#      - 9200:9200
-#      - 9300:9300
-#    environment:
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#      - "discovery.type=single-node"
+  # mysql:
+  #   image: mysql:5.7
+  #   container_name: mysql
+  #   restart: always
+  #   # command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --character-set-client-handshake=0
+  #   volumes:
+  #     - ./external_config/mysql:/etc/mysql/conf.d
+  #     - ./data_storage/mysql:/var/lib/mysql
+  #   ports:
+  #     - 3306:3306
+  #   environment:
+  #     - MYSQL_USER=mysql
+  #     - MYSQL_PASSWORD=mysql
+  #     - MYSQL_ROOT_PASSWORD=root
 
+  #  elasticsearch:
+  #    image: docker.elastic.co/elasticsearch/elasticsearch:5.5.3
+  #    container_name: elasticsearch
+  #    restart: always
+  #    volumes:
+  #      - ./data_storage/elasticsearch:/usr/share/elasticsearch/data
+  #    ports:
+  #      - 9200:9200
+  #      - 9300:9300
+  #    environment:
+  #      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #      - "discovery.type=single-node"
+
+  # rabbitmq:
+  #   image: rabbitmq:management-alpine
+  #   container_name: rabbitmq
+  #   restart: always
+  #   volumes:
+  #     - ./data_storage/rabbitmq:/var/lib/rabbitmq
+  #   ports:
+  #     - 5672:5672
+  #     - 15672:15672
+  
   #  kibana:
   #    image: docker.elastic.co/kibana/kibana:7.3.0
   #    container_name: kibana
