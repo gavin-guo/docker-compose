@@ -45,6 +45,17 @@ services:
     environment:
       - ZOO_PORT=2181
 
+  pulsar:
+    image: apachepulsar/pulsar:2.8.0
+    container_name: pulsar
+    command: bin/pulsar standalone
+    restart: always
+    volumes:
+      - ./data_storage/pulsar/data:/pulsar/data
+    ports:
+      - 6650:6650
+      - 8080:8080
+
   redis:
     image: redis:alpine
     container_name: redis
@@ -109,16 +120,16 @@ services:
   #      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
   #      - "discovery.type=single-node"
 
-  # rabbitmq:
-  #   image: rabbitmq:management-alpine
-  #   container_name: rabbitmq
-  #   restart: always
-  #   volumes:
-  #     - ./data_storage/rabbitmq:/var/lib/rabbitmq
-  #   ports:
-  #     - 5672:5672
-  #     - 15672:15672
-  
+  #  rabbitmq:
+  #    image: rabbitmq:management-alpine
+  #    container_name: rabbitmq
+  #    restart: always
+  #    volumes:
+  #      - ./data_storage/rabbitmq:/var/lib/rabbitmq
+  #    ports:
+  #      - 5672:5672
+  #      - 15672:15672
+
   #  kibana:
   #    image: docker.elastic.co/kibana/kibana:7.3.0
   #    container_name: kibana
